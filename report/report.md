@@ -31,7 +31,15 @@ However, seen in the image below, as we add more participants to the meeting, in
 
 `insert gallery view of zoom` in contrast with `image of people sitting around a table looking at each other`
 
-## Research Questions and Scope
+# Background and Prior Works
+
+`insert existing solution`
+
+`insert VR 3d chat apps`
+
+`insert other research work`
+
+# Research Questions and Scope
 
 This motivated us to explore alternative ways to represent participants in WVC applications to increase engagement, interactivity, and attention. 
 
@@ -41,22 +49,6 @@ We are set out to build a prototype WVC application to study the perceived effec
 
 `insert scope of this project`
 
-# Background and Prior Works
-
-A large body of prior work has explored that eye contact is a critical aspect of human communication. [1, 2] Eye contact plays an important role in both in person and a WVC system. [3, 4] Therefore, it’s critical and necessary to preserve eye contact in order to realistically imitate real-world communication in WVC systems. However, perceiving eye contact is difficult in existing video-conferencing systems and hence limits their effectiveness. [2] The lay-out of the camera and monitor severely restricted the support of mutual gaze. Using current WVC systems, users tend to look at the face of the person talking which is rendered in a window within the display(monitor). But the camera is typically located at the top of the screen. Thus, it’s impossible to make eye contact. People who use consumer WVC systems, such as Zoom, Skype, experience this problem frequently. This problem has been around since the dawn of video conferencing in 1969 [5] and has not yet been convincingly addressed for consumer-level systems. 
-
-Some researchers aim to solve this by using custom-made hardware setups that change the position of the camera using a system of mirrors [6,7]. These setups are usually too expensive for a consumer-level system. Software algorithms solutions have also been explored by synthesizing an image from a novel viewpoint different from that of the real camera. This method normally proceeds in two stages, first they reconstruct the geometry of the scene and in second stage, they render the geometry from the novel viewpoint. [8, 9, 10, 11, 12] Those methods usually require a number of cameras and not very practical and affordable for consumer-level. Besides, those methods also have a convoluted setup and are difficult to achieve in real-time. 
-
-Some gaze correction systems are also proposed, targeting at a peer- to-peer video conferencing model that runs in real-time on average consumer hardware and requires only one hybrid depth/color sensor such as the Kinect. [13] However, when there are more than two persons involved in a web video conference, even with gaze corrected view, users still cannot tell whether a person is looking at him or someone else in the meeting. With the gaze correction, it will create the illusion that everyone in this meeting is looking out of the screen. This could cause a serious confusion. 
-
-Therefore, we propose our system ….
-
-`insert existing solution`
-
-`insert VR 3d chat apps`
-
-`insert other research work`
-
 # The Prototype
 
 This section describes the technical details regards to our implementation. We first outline the language and framework this prototype is developed on, then we describe the rendering, layout, and orientation calculation. Lastly we go over the configuration files, events, timed and randomized sequences, and integrated questionaries that aid us in user-experimentation.
@@ -65,17 +57,23 @@ This section describes the technical details regards to our implementation. We f
 
 ## Platform
 
-The prototype is mostly developed in Processing `cite`, a Java-based graphic-centric language mostly used in education, prototype, and visual arts. Due to limitations (see limitations sections), it is wrapped in a Unity game engine for integrated questionnaire for a smoother user-testing experience. We chose Processing and Unity as they have strong support of 3D environment, video and audio playback, robust mouse input, ease-of-use, and quick prototype turn-around overheads.
+The prototype is mostly developed in Processing `cite` (a Java-based graphic-centric language mostly used in education, prototype, and visual arts) and Unity Engine `cite` (a popular free-to-use game engine). The Unity engine wraps around the Processing prototype to provide user-testing interface such as integrated questionaries and videos.
 
-- Cross platform
-- ^ although some issues with Mac application export due to recent Mac OS gatekeeper security checks
-- 
+We chose Processing and Unity as they have strong support of 3D environment, video and audio playback, robust mouse input, ease-of-use, and quick prototype turn-around overheads. Both frameworks are also cross-platform and can execute on Windows, macOS, and Linux. However, as we also discuss in Section `limitations section`, recent macOS `cite macOS update` added a *Gatekeeper* security feature that prevents un-sighed software from running -- thus complicating the user-testing process, as distributed prototype executables to the participants cannot be opened.
 
 ## 3D Environment
 
-- This section talks about the 3D environment built inside this prototype
-- Based the design off of Zoom (background colors, buttons, UI layout) such that it will present the participants with a familiar UX
-- We call the visual representation of other participants in the meeting *Views*, we have two types of views: head and eyes (HeadView and EyeView class in the code respectively). The View class is solely responsible for managing the state and rendering themselves onto the screen.
+
+`insert figure of a typical view of the prototype in Unity app`
+
+Figure `insert figure` shows a typical 3D environment rendered in the prototype app. We base the user interface (UI) design -- including colours, buttons, and layout -- from existing WVC apps such as Zoom to present the participants with a familiar user experience. By doing so, we limit other factors that would interfere with our user experiments. However unlike traditional WVC apps, we replace the centre (where typically there would be a gallery or grid view of camera video feeds) with our prototype avatar representation.
+
+From hereafter, we will refer to these visual representation of participants in the meeting as *Avatar Views* (*View* class). As outlined earlier in [Section on research questions](#research-questions-and-scope), we propose two types of avatars to explore: 3D head avatars (*HeadView* class) and 2D eye avatars (*EyeView* class). 
+
+`insert figure of head view class and the eye view class`
+
+
+
 
 ### Heads
 
@@ -163,11 +161,18 @@ Describe how these infrastructure is needed to run the experiments
 - Limitations in collection of data
 	- Ideally, we want to use some gaze-tracking hardware/software to actually track and log where the users are looking at (as seen in the omitted experiment setup using Tobii), but because none of the user experiments are performed in person, we physically cannot collect those data.
 	- A workaround is to have the user click/move the mouse to where they’re looking at, but because of aforementioned platform limitations, we can’t do that either
+- Bias of data
+	- Sample size could be to homogeneous (break down of first-spoken language, ethnicity, geographic location)
+	- Time of day when running the experiment affects participant’s attention, energy, and mood, and ultimately affect experiment outcomes
 
 
 # Future Work
 
 This section talks about the future work
+
+- Testing a combination of eyes and heads
+- Testing a large grid of eyes vs. Heads 
+- Different combination of styles of eyes and heads
 
 ## Prototype Development
 
