@@ -16,13 +16,13 @@ jobs:
       - name: Compile conference paper
         uses: xu-cheng/latex-action@1.2.1
         with:
-          working_directory: docs/paper
+          working_directory: paper
           root_file: paper.tex
       
       - name: Publish paper PDF
         uses: actions/upload-artifact@v1.0.0
         with:
           name: Conference Paper
-          path: docs/paper/paper.pdf
+          path: paper/paper.pdf
           
 
