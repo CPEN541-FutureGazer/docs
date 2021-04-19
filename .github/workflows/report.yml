@@ -22,9 +22,9 @@ jobs:
           root_file: report.tex
           working_directory: report
       
-#       - name: Publish report PDF
-#         uses: actions/upload-artifact@v1.0.0
-#         with:
-#           name: Conference Paper
-#           path: report/report.pdf
+      - name: Publish report PDF
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: Conference Paper
+          path: report/report.pdf
           
