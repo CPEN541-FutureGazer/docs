@@ -2,7 +2,7 @@
 
 This section describes the technical details regards to our implementation. We first outline the language and framework this prototype is developed on, then we describe the rendering, layout, and orientation calculation. Lastly we go over the configuration files, events, timed and randomized sequences, and integrated questionaries that aid us in user-experimentation.
 
-> Note: Since this project is not mainly focused on the usability study of this concept, we only implemented the minimum-viable-product to carry-out the user experiments due to time-constraints. We discuss how this prototype could be improved in future>prototype section.
+Note: Since this project is not mainly focused on the usability study of this concept, we only implemented the minimum-viable-product to carry-out the user experiments due to time-constraints. We discuss how this prototype could be improved in future>prototype section.
 
 \subsection{Platform}
 
@@ -66,9 +66,11 @@ While not used in our final experiments, we also added an option to highlight av
 
 To simplify the behaviour of mock avatars, we have three pre-programmed modes for the avatars to follow:
 
-1. **NORMAL**: the avatar is in normal mode, it will follow and track a given set of target coordinates (see [Section TODO](target-coordinates)).
-2. **STARE**: the avatar should stare at the active participant by gazing directly outwards from the screen.
-3. **RANDOM**: the avatar randomly looks around as if they are distracted. Current implementation of the random mode uses a series of Perlin noise functions to approximate how real head moves around randomly.
+\begin{enumerate}
+    \item \textbf{NORMAL}: the avatar is in normal mode, it will follow and track a given set of target coordinates (see [Section TODO](target-coordinates)).
+    \item \textbf{STARE}: the avatar should stare at the active participant by gazing directly outwards from the screen.
+    \item \textbf{RANDOM}: the avatar randomly looks around as if they are distracted. Current implementation of the random mode uses a series of Perlin noise functions to approximate how real head moves around randomly.
+\end{enumerate}
 
 Note that this would only apply to the mock avatars used in user experiments to simulate real people.
 
@@ -85,25 +87,23 @@ Each avatar (*View* base class) has attributes targetX and targetY which corresp
 
 For example, if the avatar is set to track the mouse cursor’s screen position, then we trivially set:
 
-processing
+\begin{lstlisting}[language=Java]
 avatar.targetX = mouseX
 avatar.targetY = mouseY
+\end{lstlisting}
 
 
 If an avatar A is set to look at another avatar B, we can set the target coordinates of A to the spatial coordinates of B:
 
-
+\begin{lstlisting}[language=Java]
 A.targetX = B.x
 A.targetY = B.y
-
-
-
-- For heads, this target coordinates need to be mapped to some 3D space rotation (rotX, rotY, rotZ) --- see next subsection for this mapping
-- Eyes are bit more straightforward since targetX,Y is a direct mapping because eyes are 2D renderings
+\end{lstlisting}
 
 \subsubsection{Rotation Calculation}
 
-Once an avatar knows *where* to look (i.e. the target coordinates), it needs to compute *how* to look in that direction (i.e. compute the corresponding transforms required to show the correct visual representation).
+Once an avatar knows \textit{where} to look (i.e. the target coordinates),
+it needs to compute \textit{how} to look in that direction (i.e. compute the corresponding transforms required to show the correct visual representation).
 
 insert image of mapping from targetXy to offset Xy
 
@@ -133,11 +133,13 @@ The file can be loaded at initialization-time of the experiment. Upon which, all
 
 The sequence of state changes in the prototype user experiment is controlled by *events*. These events are defined in the configuration files as a single array that represents a timeline. The different types of events supported are:
 
-- Change mode
-- Change avatar target
-- Set focus flags
-- Play sound
-- Stop experiment
+\begin{itemize}
+    \item Change mode
+    \item Change avatar target
+    \item Set focus flags
+    \item Play sound
+    \item Stop experiment
+\end{itemize}
 
 For more details regarding events, please refer to the source code.
 
