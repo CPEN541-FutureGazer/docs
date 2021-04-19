@@ -1,0 +1,26 @@
+
+# Limitations
+
+- Covid-19 working remotely, so it’s hard to sync up between team members
+- Technical limitations (technical)
+	- 2D and 3D avatars/views are primitive (barely colours and textures)
+	- Not customizable, could affect how people feel about usability because it doesn’t convey as much expression as originally intended
+	- 3D head lack eyes with animation and texture (unfinished due to technical and time constraints) -- also affects how people perceive eye-contact in WVC because it looks creepy (and literally have no eyes).
+	- Primitive lighting in 3D environment (simple directional light creates uncanny environment)
+- Limitations in running the experiments:
+	- User testing extremely difficult, despite the prototype framework being cross-platform, exporting/deploying apps required notarization (a security feature that only allows officially signed app to run), so we need last-minute hacks to have the user experiments run
+	- Small sample size
+- Limitations in collection of data
+	- Ideally, we want to use some gaze-tracking hardware/software to actually track and log where the users are looking at (as seen in the omitted experiment setup using Tobii), but because none of the user experiments are performed in person, we physically cannot collect those data.
+	- A workaround is to have the user click/move the mouse to where they’re looking at, but because of aforementioned platform limitations, we can’t do that either
+- Bias of data
+	- Sample size could be to homogeneous (break down of first-spoken language, ethnicity, geographic location)
+	- Time of day when running the experiment affects participant’s attention, energy, and mood, and ultimately affect experiment outcomes
+
+## Prototype Development
+
+- Unified 3D framework/engine
+- Apple Gatekeeper notarization 
+- More sophisticated 3D models and animations
+- Add real-time gaze tracking support
+- More dynamic and fluid 3D environment (since right now all the heads and eyes are locked onto a grid)
