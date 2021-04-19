@@ -1,4 +1,4 @@
-# Introduction and Problem
+## Introduction and Problem
 
 Over the last year, we all observed and experienced first-hand at attempting to scavenge the productivity and work-ethics we once had while working from home while in a pandemic. And one of the most important work-related ritual is none other than meetings and hangouts. 
 

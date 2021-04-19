@@ -12,7 +12,6 @@ We chose Processing and Unity as they have strong support of 3D environment, vid
 
 ## 3D Environment
 
-
 `insert figure of a typical view of the prototype in Unity app`
 
 Figure `insert figure` shows a typical 3D environment rendered in the prototype app. We base the user interface (UI) design -- including colours, buttons, and layout -- from existing WVC apps such as Zoom to present the participants with a familiar user experience. By doing so, we limit other factors that would interfere with our user experiments. However unlike traditional WVC apps, we replace the centre (where typically there would be a gallery or grid view of camera video feeds) with our prototype avatar representation.
@@ -20,6 +19,8 @@ Figure `insert figure` shows a typical 3D environment rendered in the prototype 
 From hereafter, we will refer to these visual representation of participants in the meeting as *Avatar Views* (*View* class). As outlined earlier in [Section on research questions](#research-questions-and-scope), we propose two types of avatars to explore: 3D head avatars (*HeadView* class) and 2D eye avatars (*EyeView* class). 
 
 `insert figure of head view class and the eye view class`
+
+For user experiments, we create *mock avatars* to replicate/simulate real meeting participants. This creates an illusion for the test participants as if they’re real people to help us speed up the testing process without involving lots of people. However, as it is an illusion, it might affect how people perceive our prototype -- as we discuss in [Section 7. Limitations](#limitations). 
 
 
 ### Heads
@@ -50,43 +51,95 @@ The result is somewhat similar to a gallery view of meeting participants in a tr
 
 ### UI Elements
 
-- UI inspired by Zoom, again to give off the familiar feel
-- Nameplates
-- Active/isFocused circle to help users identify where the sound is coming from
-- (Optional) green point light to high light where the mouse is
+As discussed in Section `TODO` (3d-environments) seen in Figure `TODO` (from 3d-environment section). The 3D head avatars and 2D eye avatars are rendered at $z=0$. In front of that, we render the UI elements such as the bottom menu bar, as well nameplates to aid in our experiments and to provide a familiar environment to the participants.
+
+`insert image of talking halo`
+
+When a participant corresponding to an avatar is talking, we have an option to activate a yellow halo behind the avatar for indication. To do this, each avatar *View* base class has a flag `isFocused` that can be toggled. If this flag is on, then we draw this additional halo on a layer behind the avatars.
+
+`insert image of the point light source`
+
+While not used in our final experiments, we also added an option to highlight avatars in on the screen based on mouse cursor positions. Rather than drawing a bounding box around the avatar, we thought it was appropriate to instead model the mouse cursor effects as a point-source-light with some vibrant colour, such as seen in Figure `TODO`. This option can be turned on via experiment configuration file (see Section `TODO: configuration file`). 
+
+## View Modes
+
+To simplify the behaviour of mock avatars, we have three pre-programmed modes for the avatars to follow:
+
+1. **NORMAL**: the avatar is in normal mode, it will follow and track a given set of target coordinates (see [Section `TODO`](#target-coordinates)).
+2. **STARE**: the avatar should stare at the active participant by gazing directly outwards from the screen.
+3. **RANDOM**: the avatar randomly looks around as if they are distracted. Current implementation of the random mode uses a series of Perlin noise functions to approximate how real head moves around randomly.
+
+Note that this would only apply to the mock avatars used in user experiments to simulate real people.
+
+During user experiments, we can dynamically and programmatically change the modes of the avatars to simulate whether a person in the meeting is paying attention or not paying attention, and looking at the test subject participant, or anywhere else on the screen.
+
 
 ## View Calculation
 
+This section talks about the math and algorithms created to compute the target coordinates -- the screen-space coordinates of where that avatar should be looking at. As well as the mapping between the target coordinates to a rotation (for head avatars) or a translation (for eye avatars) transformations.
+
 ### Target Coordinates
 
-- Both eye and head views have an attribute targetX, targetY which is the screen coordinates of where this view should be looking at. This could be mouse position, or some other programmed position (another view, some arbitrary coordinates)
+Each avatar (*View* base class) has attributes `targetX` and `targetY` which corresponds to where the avatar should directly look at in *normal* mode. These attributes are not used in *random* and *stare* modes.
+
+For example, if the avatar is set to track the mouse cursor’s screen position, then we trivially set:
+
+```processing
+avatar.targetX = mouseX
+avatar.targetY = mouseY
+```
+
+If an avatar `A` is set to look at another avatar `B`, we can set the target coordinates of `A` to the spatial coordinates of `B`:
+
+```
+A.targetX = B.x
+A.targetY = B.y
+```
+
+
 - For heads, this target coordinates need to be mapped to some 3D space rotation (rotX, rotY, rotZ) -- see next subsection for this mapping
 - Eyes are bit more straightforward since targetX,Y is a direct mapping because eyes are 2D renderings
 
 ### Rotation Calculation
-- Rotation can be computed by drawing a vector from x,y of head’s origin to the mouse origin in the 3D space -- doesn’t work well when the heads are in 3D space but users are interacting on a 2D plane (so we used a linear mapping as an approximation and it looks pretty well)
-- Origin offset: needed because if the 3D head look straight on the z-axis they actually doesn’t look like they look at the screen because of perspective
-	- “calibrate” by wrapping their view by mapping their x-y position from the screen centre to some rotation offset
 
-## View Modes
+Once an avatar knows *where* to look (i.e. the target coordinates), it needs to compute *how* to look in that direction (i.e. compute the corresponding transforms required to show the correct visual representation).
 
-- Normal, random, stare modes
-- How to switch between modes
+`insert image of mapping from targetXy to offset Xy`
+
+For the 2D eye avatars, this mapping from target coordinates to transformation is a simple 2D translation $(\Delta x, \Delta y)$, as seen in Figure `TODO`. First, a difference vector $\vec d$ is computed from the avatar’s local origin to the target coordinates. We then scale it by some factor $s$ to control the sensitivity of this translation. Finally, we constrain the magnitude of $s\vec d$ to the radius of the eyes to ensure the pupil do not go off the eye, creating a white eye.
+
+For the 3D head avatars, the mapping is instead from the target coordinates to a set of rotations along the x, y, and z-axis. The simplest way to do this is to draw a 3D vector from the head avatar origin to the target coordinates. Then using trigonometry on the vector, we can find all angles corresponds to the x, y, and z rotations.
+
+Notice, that up to this point, we have not established the third, z-component, of the target coordinates. This is because it depends on what the head avatar should be looking at. If the avatar is looking at another avatar, we leave $z = 0$ since all avatars are on the $z = 0$ plane. However, if the avatar were to follow the mouse or stare at the user, then we must set $z = z^\prime$, where $z^\prime$ is the z-offset of the camera. The difference between with vs. Without this z-correction can be seen in Figure `TODO`
+
+`insert figure of heads looking straight on vs at the camera`
+
+### Realism Approximations
+
+For both eye and head avatars, instead of applying the transformation in the renders according to he target coordinates instantaneously, we use a linear-interpolation function to smoothen the motion and simulate a more natural response -- a response with mass, inertia, and a sense of reaction time delay that would exist in real people.
+
+We also added an option to make the head wobble controlled by some noise to make the avatars feel less robotic and more organic. If a 3D head avatar’s `isFocused` flag is set on (such as when the participant the avatar belongs to is speaking), the wobble amplitude is slightly increased to approximate the extra motion due to mouth movements.
 
 ## Configuration Files
 
-Describe how these infrastructure is needed to run the experiments
+To facilitate a series of automated, consistent, yet randomly generated user experiment scenarios, we developed a configuration framework for our prototype. Each experiment setup (see [Section `TODO`](#experiment-setup)) is contained inside a `config.json` file. Each file contains all the experiment parameters such as number of avatars, type of avatars, names, and the sequence of modes, target coordinates, etc. 
 
 ### Initialization
 
+The file can be loaded at initialization-time of the experiment. Upon which, all the parameters in the configuration file is read, and the defined avatars are populated in the scene. 
+
 ### Events
 
-- Change mode, target id etc
-- Change active
+The sequence of state changes in the prototype user experiment is controlled by *events*. These events are defined in the configuration files as a single array that represents a timeline. The different types of events supported are:
+
+- Change mode
+- Change avatar target
+- Set focus flags
 - Play sound
+- Stop experiment
 
-### Event loop to orchestrate and replay event during demo
-- Processing code needed to generate 
+For more details regarding events, please refer to the source code.
 
-### Randomization
-- To randomize certain events, python script used to generate the configuration json file
+## Unity Engine Wrapper
+
+To further facilitate user testing, we wrapped the Processing prototype in a Unity engine user interface, where participants are guided without the constant supervision from us. Each experiment setup is sequenced in order and appropriate questionaries are prompted in between each setup. Finally, the questionnaire responses are automatically logged in participants’ computer, making it easy for review.
