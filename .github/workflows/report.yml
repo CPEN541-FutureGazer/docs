@@ -25,6 +25,6 @@ jobs:
       - name: Publish report PDF
         uses: actions/upload-artifact@v1.0.0
         with:
-          name: Conference Paper
+          name: Report Document
           path: report/report.pdf
           
