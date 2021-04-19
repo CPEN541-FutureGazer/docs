@@ -19,9 +19,8 @@ jobs:
       - name: Compile conference paper
         uses: xu-cheng/latex-action@v2
         with:
-          working-directory: report
-#           working_directory: report
           root_file: report.tex
+          working_directory: report
       
 #       - name: Publish report PDF
 #         uses: actions/upload-artifact@v1.0.0
