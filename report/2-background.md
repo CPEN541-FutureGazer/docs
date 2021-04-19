@@ -6,8 +6,16 @@ Some researchers aim to solve this by using custom-made hardware setups that cha
 
 Some gaze correction systems are also proposed, targeting at a peer- to-peer video conferencing model that runs in real-time on average consumer hardware and requires only one hybrid depth/color sensor such as the Kinect. [13] However, when there are more than two persons involved in a web video conference, even with gaze corrected view, users still cannot tell whether a person is looking at him or someone else in the meeting. With the gaze correction, it will create the illusion that everyone in this meeting is looking out of the screen. This could cause a serious confusion.
 
+
+
+**Eye Contact in Multi-person Conversation**
+
+Most studies of eye contact during conversations focused on two-person communication [14]. 
+However, multi-person conversational structure becomes more complicated when a third speaker is introduced. It has long been presumed that eye contact provides critical information in conversations. Isaacs and Tang [15] performed a usability study of a group of five participants using a desktop video conferencing system. They found that during video conferencing, users addressed each other by name and started explicitly requesting individuals to start talking. In face-to-face interaction, they found people used their eye gaze to indicate whom they were addressing. Sellen [16] was one of the first to formally investigate the effects of eye contact on the turn taking process in four-person video conferencing. Unfortunately, she found no effects because the video conferencing system she implemented did not accurately convey eye contact [16]. Vertegaal et al. [17] found that without eye contact, 88\% of the participants indicated they had trouble perceiving whom their partners were talking to. 
+
 Therefore, we propose our system ….
 
+NOTE: ALL References can be found in Latex
 `insert existing solution`
 
 `insert VR 3d chat apps`
