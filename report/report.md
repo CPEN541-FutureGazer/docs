@@ -1,19 +1,17 @@
 # CPEN 541 Technical Report Draft
 
-Last edited by Muchen He, 2021-04-17
-
-- Team
+Muchen He (44638154, mhe@ece.ubc.ca)
+Beibei Xiong
+Kaseya Xia
 
 # Preface
 
-- Who this document is for
-- What the purpose of this document is
-- Please see paper, conference, and video for further information
+This document is intended for the instructor or students of the human-computer interface course CPEN 541 to learn and possibly reproduce the experimental setup and results. The document outlines in detail the research questions we are pursing, as well as the motivation. This document also describe the prototype and its experiments we developed to test our research questions along with our findings. Lastly, this document features the limitations as well as the future work (including what the prototype would ideally look like). 
 
-- Contact information about team members
-- Where we can find our code
+Please also refer to our other submitted work, including our conference paper, demonstrative video, and presentation slides.
 
-- Disclaimers
+We can be contacted via our emails (listed at the top of the document). All the code for this project can be found on GitHub: <https://github.com/CPEN541-FutureGazer>.
+
 
 # Introduction and Problem
 
@@ -32,6 +30,14 @@ However, seen in the image below, as we add more participants to the meeting, in
 `insert gallery view of zoom` in contrast with `image of people sitting around a table looking at each other`
 
 # Background and Prior Works
+
+A large body of prior work has explored that eye contact is a critical aspect of human communication. [1, 2] Eye contact plays an important role in both in person and a WVC system. [3, 4] Therefore, it’s critical and necessary to preserve eye contact in order to realistically imitate real-world communication in WVC systems. However, perceiving eye contact is difficult in existing video-conferencing systems and hence limits their effectiveness. [2] The lay-out of the camera and monitor severely restricted the support of mutual gaze. Using current WVC systems, users tend to look at the face of the person talking which is rendered in a window within the display(monitor). But the camera is typically located at the top of the screen. Thus, it’s impossible to make eye contact. People who use consumer WVC systems, such as Zoom, Skype, experience this problem frequently. This problem has been around since the dawn of video conferencing in 1969 [5] and has not yet been convincingly addressed for consumer-level systems.
+
+Some researchers aim to solve this by using custom-made hardware setups that change the position of the camera using a system of mirrors [6,7]. These setups are usually too expensive for a consumer-level system. Software algorithms solutions have also been explored by synthesizing an image from a novel viewpoint different from that of the real camera. This method normally proceeds in two stages, first they reconstruct the geometry of the scene and in second stage, they render the geometry from the novel viewpoint. [8, 9, 10, 11, 12] Those methods usually require a number of cameras and not very practical and affordable for consumer-level. Besides, those methods also have a convoluted setup and are difficult to achieve in real-time.
+
+Some gaze correction systems are also proposed, targeting at a peer- to-peer video conferencing model that runs in real-time on average consumer hardware and requires only one hybrid depth/color sensor such as the Kinect. [13] However, when there are more than two persons involved in a web video conference, even with gaze corrected view, users still cannot tell whether a person is looking at him or someone else in the meeting. With the gaze correction, it will create the illusion that everyone in this meeting is looking out of the screen. This could cause a serious confusion.
+
+Therefore, we propose our system ….
 
 `insert existing solution`
 
@@ -73,31 +79,37 @@ From hereafter, we will refer to these visual representation of participants in 
 `insert figure of head view class and the eye view class`
 
 
-
-
 ### Heads
 
-- Processing natively supports 3D .obj files
-- We used a free-to-use creative-commons head object
-- Low polygon count
-- No textures (see limitations/future work)
-- These are needed since large amount of heads would slow down the prototype and we don’t have time to perform product-level optimizations
-- No animations (because otherwise they cost money)
-- No physics based animations -- again because they take up precious compute resources
-- We need to maintain stable 60fps for an immersive experience
-- The heads need to transform in real time as if it’s a video (can’t be pre-rendered)
+`show image of 3d model of the head`
+
+`insert head avatar grid view`
+
+In the 3D environment, the head avatars are loaded from a free-to-use .OBJ 3D model downloaded from *TurboSquid* with standard usage license `cite` [^:https://blog.turbosquid.com/turbosquid-3d-model-license/#Educational-Use]. 
+We load the object into the 3D scene once, and use the same model instance for all other head avatar *HeadView* objects to save computation -- since they’re essentially the same 3D model, just redrawn with different transformations.
+
+Due to time and budget constraints, we are limited to a low-polygon-count model of the head, with no texture, no rigging, no soft-body animation, and no physics simulation. The 3D model of the head, as shown in Figure `TODO`, has minimum features of a face. Despite the low-quality 3D models, the primitiveness of the 3D model helps maintaining a high rendering frame-rate while the prototype is running, even without writing custom shaders and performing fine-tuned optimizations -- especially when there could potentially be up to 9 to 25 avatars being drawn concurrently on to the screen. This is important as we need the head avatars to transform and render in real-time as if they’re real inputs in a WVC application.
+As we will discuss in Section `TODO: future work`, if given more budget and 3D talent, more work can be allocated to polishing the visual appeal of the avatars to be more inviting and friendly, and ultimately improve user-experience.
 
 ### Eyes
 
-- The 2D eyes are inspired by Fels and his mention of a novel desktop widget called x-eyes where the pupil follows the mouse cursor
-- We implement a similar as an alternative to the 3D head
-- Go over rendering techniques involving drawing to a texture and masking it with some transform
+The 2D eyes avatar was inspired from goggly eyes and novel desktop widgets (e.g. XEyes `TODO: cite`) created as general amusement. However, we decided to explore this as an alternative to the head avatars to see whether if 3D and head orientation is required to deliver eye-contact and gaze hints to the meeting participants. 
+
+`insert breakdown diagram of the eye rendering`
+
+`insert eye avatar view`
+
+`insert eye avatar grid view`
+
+With eyes avatars, instead of a 3D object transformed to orient a direction, we simply render a pair of pupils and irises on a white background as a sub-image (Figure `TODO`). Then depending on where the eye should be looking at, we rendering this sub-image with a transform that translates it in $x$ or $y$ direction (Figure `TODO`). Finally, we create an eye mask that only only renders the eye itself (Figure `TODO`).
+
+The result is somewhat similar to a gallery view of meeting participants in a traditional WVC application, except with only the eyes and their gaze visually represented.
 
 ### UI Elements
 
 - UI inspired by Zoom, again to give off the familiar feel
 - Nameplates
-- Active/isFocused circle
+- Active/isFocused circle to help users identify where the sound is coming from
 - (Optional) green point light to high light where the mouse is
 
 ## View Calculation
@@ -173,6 +185,22 @@ This section talks about the future work
 - Testing a combination of eyes and heads
 - Testing a large grid of eyes vs. Heads 
 - Different combination of styles of eyes and heads
+
+Explore how avatars can move in the space -- what if the avatars can scale based on attention, what if the avatars move back and forth (z direction) based on attention? What you can physically move around in the space
+
+Improvement to the avatar models:
+
+- head nodding
+- breathing
+- mouth shapes
+- hand gestures
+- improved randomization
+- improved blinking
+
+We would also like to see how this concept can extend to other fields:
+- how we can incorporate ML and facial expression recognition technology
+- reduce on internet bandwidth for less fortunate participants (lowers data usage)
+- 
 
 ## Prototype Development
 
