@@ -1,0 +1,45 @@
+% Title Page
+\begin{titlepage}
+	\maketitle
+\end{titlepage}
+
+
+\renewcommand{\thepage}{\roman{page}}
+\setcounter{page}{1}
+
+% Revision history
+\backgroundsetup{
+	scale=1,
+	color=black,
+	opacity=0.3,
+	angle=0,
+	contents={\includegraphics[height=\paperheight,width=\paperwidth]{../assets/render2bg}}
+}
+\BgThispage
+\include{rev_history}
+\clearpage
+
+% Table of contents
+\include{toc}
+
+% Roman numeral page numbers
+
+
+% Terms and Abbreviations
+\include{terms_and_abbreviations}
+
+% List of figures and tables
+\iftotalfigures
+\addcontentsline{toc}{section}{\listfigurename}
+\listoffigures
+\fi
+\iftotaltables
+\addcontentsline{toc}{section}{\listtablename}
+\listoftables
+\fi
+
+\newpage
+
+% Set page and section counter
+\renewcommand{\thepage}{\arabic{page}}
+\setcounter{page}{1}
