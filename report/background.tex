@@ -1,24 +1,36 @@
 \section{Background and Prior Works}
 
-A large body of prior work has explored that eye contact is a critical aspect of human communication. [1, 2] Eye contact plays an important role in both in person and a WVC system. [3, 4] Therefore, it’s critical and necessary to preserve eye contact in order to realistically imitate real-world communication in WVC systems. However, perceiving eye contact is difficult in existing video-conferencing systems and hence limits their effectiveness. [2] The lay-out of the camera and monitor severely restricted the support of mutual gaze. Using current WVC systems, users tend to look at the face of the person talking which is rendered in a window within the display(monitor). But the camera is typically located at the top of the screen. Thus, it’s impossible to make eye contact. People who use consumer WVC systems, such as Zoom, Skype, experience this problem frequently. This problem has been around since the dawn of video conferencing in 1969 [5] and has not yet been convincingly addressed for consumer-level systems.
+This section provides an overview of Web Video Conferencing (WVC), gaze tracking studies, eye-contact in current WVC system and eye-contact in multi-person communications. 
 
-Some researchers aim to solve this by using custom-made hardware setups that change the position of the camera using a system of mirrors [6,7]. These setups are usually too expensive for a consumer-level system. Software algorithms solutions have also been explored by synthesizing an image from a novel viewpoint different from that of the real camera. This method normally proceeds in two stages, first they reconstruct the geometry of the scene and in second stage, they render the geometry from the novel viewpoint. [8, 9, 10, 11, 12] Those methods usually require a number of cameras and not very practical and affordable for consumer-level. Besides, those methods also have a convoluted setup and are difficult to achieve in real-time.
+\subsection{Web Video Conferencing}
 
-Some gaze correction systems are also proposed, targeting at a peer- to-peer video conferencing model that runs in real-time on average consumer hardware and requires only one hybrid depth/color sensor such as the Kinect. [13] However, when there are more than two persons involved in a web video conference, even with gaze corrected view, users still cannot tell whether a person is looking at him or someone else in the meeting. With the gaze correction, it will create the illusion that everyone in this meeting is looking out of the screen. This could cause a serious confusion.
+WVC is a synchronous model that provides verbal and visual communication between two or more participants. Examples of WVC services include Zoom, Collaborate Ultra, Microsoft Teams, and others. When the COVID-19 pandemic emerged, and in-person classes transitioned to online-learning, researchers evaluated students’ satisfaction with WVC-based learning and social activities.
 
+WVC generally provides a more collaborative and engaging experience for students using interactive breakout rooms \cite{article0}. Some also suggest WVC provides higher satisfaction scores than other tools and has become one of the most popular online teaching methods \cite{RN7, RN8}. 
+
+However, in the study by \cite{RN3}, 80\% of the students felt they would be more engaged in a standard class setting, and 57\% of the students thought WVC technology is a barrier to their interaction with instructors. 
+
+Since WVC hinders eye-contact in larger meetings, participants also observe lower attention and memory retention, a side-effect of lack of direct eye-gazes \cite{RN10}. Lastly, a study observes an increase in participants’ pro-social behaviour when being watched by deceptive video conferencing manipulation \cite{RN2}. 
+
+
+\subsection{Gaze Tracking}
+
+
+Classical gaze-tracking methods estimate where a user is looking, but these implementations require expensive hardware and are not robust across different environments and poses \cite{RN4, RN5, RN6}. Conventional WVC services (e.g. Zoom), such as shown in Figure \ref{fig:intro-a}(a), offer standard audio and visual communication but lack innovation in bringing participants’ social hints such as intuitive and personalized eye-contact to the audience. NVIDIA Maxine uses GANs to infer facial expressions and reconstruct a photorealistic feed where a presenter can look in arbitrary directions. However, their implementation only ensures direct-eye contact to the screen’s centre and does not support larger meeting rooms \cite{RN11}. 
+
+The mixed reception of WVC and lack of non-verbal human interface forms the primary motivation for us to close the gap between teleconferencing and traditional F2F meetings. Moreover, we investigate the relationship between direct eye-gazing and pro-social behaviour in a WVC environment.
+
+
+\subsection{Eye Contact in Current WVC Systems}
+
+A large body of prior work has explored that eye contact is a critical aspect of human communication. \cite{article, 10.1145/503376.503386} Eye contact plays an important role in both in person and a WVC system. \cite{10.1145/1056808.1056995, 10.1145/937549.937552} Therefore, it’s critical and necessary to preserve eye contact in order to realistically imitate real-world communication in WVC systems. However, perceiving eye contact is difficult in existing video-conferencing systems and hence limits their effectiveness. \cite{10.1145/503376.503386} The lay-out of the camera and monitor severely restricted the support of mutual gaze. Using current WVC systems, users tend to look at the face of the person talking which is rendered in a window within the display(monitor). But the camera is typically located at the top of the screen. Thus, it’s impossible to make eye contact. People who use consumer WVC systems, such as Zoom, Skype, experience this problem frequently. This problem has been around since the dawn of video conferencing in 1969\cite{1090060} and has not yet been convincingly addressed for consumer-level systems. 
+
+Some researchers aim to solve this by using custom-made hardware setups that change the position of the camera using a system of mirrors \cite{10.1145/192844.193054, 10.1145/142750.142977}. These setups are usually too expensive for a consumer-level system. Software algorithms solutions have also been explored by synthesizing an image from a novel viewpoint different from that of the real camera. This method normally proceeds in two stages, first they reconstruct the geometry of the scene and in second stage, they render the geometry from the novel viewpoint. \cite{10.1145/344779.344951, 10.1145/1015706.1015805, 10.1145/1186562.1015766, article9, a12} Those methods usually require a number of cameras and not very practical and affordable for consumer-level. Besides, those methods also have a convoluted setup and are difficult to achieve in real-time. 
+
+Some gaze correction systems are also proposed, targeting at a peer- to-peer video conferencing model that runs in real-time on average consumer hardware and requires only one hybrid depth/color sensor such as the Kinect. \cite{10.1145/2366145.2366193} However, when there are more than two persons involved in a web video conference, even with gaze corrected view, users still cannot tell whether a person is looking at him or someone else in the meeting. With the gaze correction, it will create the illusion that everyone in this meeting is looking out of the screen. This could cause a serious confusion. 
 
 \subsection{Eye Contact in Multi-person Conversation}
 
-Most studies of eye contact during conversations focused on two-person communication [14]. 
-However, multi-person conversational structure becomes more complicated when a third speaker is introduced. It has long been presumed that eye contact provides critical information in conversations. Isaacs and Tang [15] performed a usability study of a group of five participants using a desktop video conferencing system. They found that during video conferencing, users addressed each other by name and started explicitly requesting individuals to start talking. In face-to-face interaction, they found people used their eye gaze to indicate whom they were addressing. Sellen [16] was one of the first to formally investigate the effects of eye contact on the turn taking process in four-person video conferencing. Unfortunately, she found no effects because the video conferencing system she implemented did not accurately convey eye contact [16]. Vertegaal et al. [17] found that without eye contact, 88\% of the participants indicated they had trouble perceiving whom their partners were talking to.
+Most studies of eye contact during conversations focused on two-person communication argyle \cite{argyle_cook_cramer_1994}. 
+However, multi-person conversational structure becomes more complicated when a third speaker is introduced. It has long been presumed that eye contact provides critical information in conversations. Isaacs and Tang \cite{10.1145/166266.166289} performed a usability study of a group of five participants using a desktop video conferencing system. They found that during video conferencing, users addressed each other by name and started explicitly requesting individuals to start talking. In face-to-face interaction, they found people used their eye gaze to indicate whom they were addressing. \cite{10.1207/s15327051hci1004_2} was one of the first to formally investigate the effects of eye contact on the turn taking process in four-person video conferencing. Unfortunately, she found no effects because the video conferencing system she implemented did not accurately convey eye contact \cite{10.1207/s15327051hci1004_2}. \cite{article2} found that without eye contact, 88\% of the participants indicated they had trouble perceiving whom their partners were talking to. 
 
-Therefore, we propose our system
-
-NOTE: ALL References can be found in Latex
-
-
-`insert existing solution`
-
-`insert VR 3d chat apps`
-
-`insert other research work`
