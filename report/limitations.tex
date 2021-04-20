@@ -1,5 +1,5 @@
 
-\section{Limitations \& Future Work}
+\section{Limitations \& Future Work}\label{section:lim}
 
 Our project leveraged Unity and Processing to build a proof-of-concept WVC system. We investigated machine-learning-based gaze-tracking technologies and real-time avatar rendering. We also implemented our own WVC system and we successfully integrate it with gaze-tracking technology. But we realized that it is very time consuming to achieving real-time avatar rendering, especially considering this is a course project. We decided to build mock meeting scenes and implemented pre-programmed avatars in Unity to avoid spending time on achieving real-time rendering. The main goal of the paper is to explore the impact and usefulness of eye-contact in WVC system rather than making a working product.
 
@@ -10,6 +10,20 @@ The major limitation is that the avatar may not be as realistic as the human fac
 After all experiments, we asked participants for their feedback and suggestions for improving our system. Most participants complimented our system and one participant said ``\textit{It's nice enough for me to use it.}" There are two most common suggestions we gathered from the participants. First, improving the rendering quality of the avatars (P4, 7, 8, 9, 10, 11). P4 mentioned \textit{``Obviously, if the avatars are more vivid, and they do represent your eye contact, your direction of looking, maybe even body gesture etc, it could be significantly improving how it is, and avoiding the nervousness and awkwardness with real images." }However, the trade-offs of implementing more realistic avatars need to be considered carefully. P8 thinks the current head model in our system is less realistic, \textit{ ``I think the talking head version is somehow less realistic than the eyes version. Maybe it was because the head is trying to be more realistic, but it is still different from how a real head looks, so it breaks immersion for me."} With more realistic avatars, uncanny valley phenomena might arise. When the head model is closer to the realness but some tiny differences still exist, people tend to feel very comfortable. It also has the risk of breaking the immersion. 
 
 Second, adding more functionalities to the avatar (P2, 4, 10, 12), such as body gesture (P4), head nodding (P2), mouth animation(P10), and customization of avatars (P10) would make our system even better. Two participants (P1, 12) mentioned they’d like to see more features for our system. For example P1 commented ``\textit{give option to switch between 2d and 3d}". P6 thinks our system makes people feel more interactive. They stated that `` \textit{I'd like to see that the avatars could reflect some states of the people who are participating in a virtual conference. This will truly make people feel more interacted.}" 
+
+Overall, the project documented in this report is only a single component of the entire stack
+that is required to create a fully-functional app. 
+Other key components that is not mentioned here (since they are not relevant to the research question) include
+networking using web sockets, computer graphic optimizations, encryption and security, privacy, data transmission,
+gaze tracking, etc.
+Figure \ref{fig:dataflow} shows the proposed data flow and modules of a completed FutureGazer app.
+
+\begin{figure}
+	\centering
+ 	\includegraphics[width=\textwidth]{dataflow.pdf}
+	\caption{Data flow and block diagram of an ideal fully-functional FutureGazer WVC application}
+	\label{fig:dataflow}
+\end{figure}
 
 % - Covid-19 working remotely, so it’s hard to sync up between team members
 % - Technical limitations (technical)
